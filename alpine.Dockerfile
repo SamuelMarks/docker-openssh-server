@@ -4,7 +4,7 @@
 # Installed: openssh-server, mc, htop, zip,
 # tar, iotop, ncdu, nano, vim, bash, sudo
 # for net: ping, traceroute, telnet, host,
-# nslookup, iperf, nmap
+# nslookup, iperf, nmap, rsync
 ###########################################
 
 ARG IMAGE_VERSION="alpine:3.20"
@@ -38,7 +38,7 @@ apk add --no-cache --upgrade openssh-server &&
 # Utils
 apk add --no-cache --upgrade mc htop iotop ncdu tar zip nano vim bash sudo sed &&
 # Net utils
-apk add --no-cache --upgrade iputils paris-traceroute perl-net-telnet bind-tools iperf nmap
+apk add --no-cache --upgrade iputils paris-traceroute perl-net-telnet bind-tools iperf nmap rsync
 # Deleting keys
 rm -rf '/etc/ssh/ssh_host_dsa'* '/etc/ssh/ssh_host_ecdsa'* '/etc/ssh/ssh_host_ed25519'* '/etc/ssh/ssh_host_rsa'* &&
 # Config SSH
