@@ -2,8 +2,7 @@
 
 printf 'Start entrypoint.sh\n'
 
-set -eu
-set +f
+set -eu +f
 
 # Folder for sshd. No Change.
 mkdir -p -- '/var/run/sshd'
@@ -20,7 +19,6 @@ chmod 700 '/root/.ssh'
 if [ -f '/tmp/.isauthset' ]; then
     printf 'Auth already configured\n'
 else
-    printf 'Setting user auth for sshd\n'
     sed -ri 's|^#PasswordAuthentication|PasswordAuthentication|' '/etc/ssh/sshd_config' ;
     sed -i 's|PermitRootLogin without-password|PermitRootLogin yes|' '/etc/ssh/sshd_config' ;
     sed -i 's|PermitRootLogin prohibit-password|PermitRootLogin yes|' '/etc/ssh/sshd_config' ;
@@ -38,8 +36,7 @@ else
               printf '%s\n' "${USER_PUBKEY}" >> '/root/.ssh/authorized_keys'
               chmod 600 -- '/root/.ssh/authorized_keys'
               ssh-keygen -A
-              printf 'Public key set to: %s\n' "${USER_PUBKEY}"
-              cat -- '/etc/ssh/sshd_config'
+              # printf 'Public key set to: %s\n' "${USER_PUBKEY}"
               ;;
         esac
         ;;
@@ -47,8 +44,8 @@ else
         sed -ri 's|^PasswordAuthentication no|PasswordAuthentication yes|' '/etc/ssh/sshd_config' ;
         sed -ri 's|UsePAM yes|#UsePAM yes|g' '/etc/ssh/sshd_config' ;
         printf 'root:%s' "${USER_PASSWORD}" | chpasswd
-        # shellcheck disable=SC2016
-        printf 'Password has been set using ${USER_PASSWORD}\n'
+        ## shellcheck disable=SC2016
+        # printf 'Password has been set using ${USER_PASSWORD}\n'
         ;;
       esac
     touch -- '/tmp/.isauthset'
